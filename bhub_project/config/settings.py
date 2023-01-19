@@ -72,20 +72,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'djongo',
-#         'CLIENT': {
-#             "host": 'mongodb://root:MongoDB2019!@mongodb:27017',
-#             "name": "bhub_project",
-#             "authMechanism":"SCRAM-SHA-1"
-#             }
-#     }
-# } 
-
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
