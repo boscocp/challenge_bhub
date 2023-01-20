@@ -26,8 +26,7 @@ SECRET_KEY = 'django-insecure-0l2a)2+#hno9nv3y=096iwx@281ltij=uzm0@hjk@k=f0jy)4-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 # Application definition
 
@@ -43,6 +42,9 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework_swagger',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True # TODO change for only have acess the white listed
+CORS_ALLOW_CREDENTIALS = True
 
 REST_FRAMEWORK = {
     'DEFAULT_METADATA_CLASS': 'rest_framework.metadata.SimpleMetadata'
@@ -84,6 +86,7 @@ DATABASES = {
         'ENGINE': 'djongo',
         'NAME': 'bhub_project',
         'CLIENT': {
+            'host': 'mongodb://mongodb:27017',
             'username': 'root',
             'password': 'MongoDB2019!',
             'authSource': 'admin',
@@ -133,3 +136,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
