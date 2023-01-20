@@ -1,6 +1,15 @@
 version: '3'
 
 services:
+  backend:
+    image: bhub-backend
+    build:
+      context: ./bhub_project
+      dockerfile: ./Dockerfile
+    ports:
+      - 1024:1024
+    depends_on:
+      - mongodb
   mongo-express:
     image: mongo-express
     ports:
@@ -29,8 +38,7 @@ services:
       - "27017:27017"
     volumes:
       - ../Docker/Volumes/MongoDB:/data/db
-      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:rw
-      
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:rw 
     networks:
       - mongo-compose-network
 
