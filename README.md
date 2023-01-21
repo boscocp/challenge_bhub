@@ -28,7 +28,7 @@ docker-compose ps
 ```
 
 Primeiramente recomendo verificar se o banco foi criado na interface mongo-express pelo link http://localhost:8081/ : 
-![Busca](https://github.com/boscocp/challenge_bhub/blob/master/imagens/mongodb-ui.png)
+![mongo-express](https://github.com/boscocp/challenge_bhub/blob/master/images/mongodb-ui.png)
 
 Caso por algum motivo o banco não tenha sido criado, crie digitando bhub_project e clicando em create database na interface.
 
