@@ -1,4 +1,4 @@
-# Desafop Bhub
+# Desafiop Bhub
 
 Olá,
 Desafio BHUB. Este projeto consiste em aplicar conhecimentos de back-end ao criar uma API CRUD simples. Escoli como linguagem Python, e o framework Django. Usei como base boas práticas PEP-8 na medida do possível e para aprimorar meus conhecimentos do framework usei o livro Two Scoops of Django 3.x (2020 - Daniel Audrey Feldroy ).
