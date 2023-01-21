@@ -12,9 +12,14 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 import os
 from pathlib import Path
+from os.path import abspath, dirname, join
+
+def root(*dirs):
+    base_dir = join(dirname(__file__), '..', '..')
+    return abspath(join(base_dir, *dirs))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -43,7 +48,7 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
 ]
 
-CORS_ORIGIN_ALLOW_ALL = True # TODO change for only have acess the white listed
+CORS_ORIGIN_ALLOW_ALL = True  # TODO change for only have acess the white listed
 CORS_ALLOW_CREDENTIALS = True
 
 REST_FRAMEWORK = {
@@ -65,7 +70,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [root('templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -131,6 +136,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
+MEDIA_ROOT = root('media')
+STATIC_ROOT = root('static_root')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
