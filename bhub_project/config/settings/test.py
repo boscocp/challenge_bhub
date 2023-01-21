@@ -86,7 +86,6 @@ DATABASES = {
         'ENGINE': 'djongo',
         'NAME': 'bhub_project',
         'CLIENT': {
-            'host': 'mongodb://mongodb:27017', # TODO: lidarcom isso, documentar para teste, tem que comentar pra testar
             'username': 'root',
             'password': 'MongoDB2019!',
             'authSource': 'admin',

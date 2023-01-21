@@ -9,7 +9,7 @@ class ModelTest(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        connect('bhub_project', host='mongomock://localhost')
+        connect('bhub_project_test', host='mongomock://localhost')
 
     @classmethod
     def tearDownClass(cls):

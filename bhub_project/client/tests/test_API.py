@@ -14,7 +14,7 @@ class APITest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        connect('bhub_project', host='mongomock://localhost')
+        connect('bhub_project_test', host='mongomock://localhost')
 
     @classmethod
     def tearDownClass(cls):

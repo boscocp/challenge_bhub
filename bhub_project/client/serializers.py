@@ -10,7 +10,8 @@ class ClienteSerializer(serializers.ModelSerializer):
             'telefone',
             'endereco',
             'data_cadastro',
-            'faturamento_declarado'
+            'faturamento_declarado',
+            'uuid'
         ]
 
 
@@ -19,5 +20,5 @@ class DadosBancariosSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DadosBancarios
-        fields = ['agencia', 'conta', 'banco', 'cliente']
+        fields = ['agencia', 'conta', 'banco', 'cliente', 'uuid']
         extra_kwargs = {'clientes': {'required': False}}
