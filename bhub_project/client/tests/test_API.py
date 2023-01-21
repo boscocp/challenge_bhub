@@ -1,11 +1,10 @@
 from uuid import UUID
 from django.test import TestCase
 from client.models import Cliente, DadosBancarios
-from django.core.exceptions import ObjectDoesNotExist
+from client.serializers import validar_banco
 from rest_framework.test import APIClient
 from mongoengine import connect, disconnect
-from bson.decimal128 import Decimal128
-
+from django.core.exceptions import ValidationError
 client = APIClient()
 # Create your tests here.
 
@@ -19,6 +18,12 @@ class APITest(TestCase):
     @classmethod
     def tearDownClass(cls):
         disconnect()
+
+    def test_validar_conta_deve_retornar_true(self):
+        self.assertTrue(validar_banco('banco1'))
+
+    def test_validar_conta_deve_retornar_ValidationError(self):
+        self.assertRaises(ValidationError, validar_banco, 'banco1#$')
 
     def test_API_post_deve_retornar_201(self):
         request = {
@@ -144,6 +149,27 @@ class APITest(TestCase):
             '/clientes/35fc86f3-5533-412b-8ce0-93107079b469/dadosbancarios/', request, format='json')
         self.assertEqual(response.status_code, 201)
 
+    def test_create_dados_bancarios_deve_retornar_400_e_erro_validaca_banco(self):
+        Cliente.objects.create(
+            uuid=UUID("35fc86f3-5533-412b-8ce0-93107079b469"),
+            razao_social='CNPJ',
+            telefone='112222-222',
+            endereco='Ali na rua',
+            faturamento_declarado=100.51,
+        )
+        request = {
+            "dadosbancarios": {
+                "agencia": 1,
+                "conta": 3,
+                "banco": "Banco11#",
+            }
+        }
+        response = client.post(
+            '/clientes/35fc86f3-5533-412b-8ce0-93107079b469/dadosbancarios/', request, format='json')
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.data['message']
+                         ['banco'][0], 'Banco invlálido')
+
     def test_get_all_dados_bancarios_deve_retornar_200_e_2_bancos(self):
         cliente = Cliente.objects.create(
             uuid=UUID("35fc86f3-5533-412b-8ce0-93107079b468"),
@@ -181,14 +207,15 @@ class APITest(TestCase):
             faturamento_declarado=100.51,
         )
 
-        novo_banco = DadosBancarios( 
-            agencia = 1,
-            conta = 2,
-            banco = "banco1",
-            cliente = cliente,
+        novo_banco = DadosBancarios(
+            agencia=1,
+            conta=2,
+            banco="banco1",
+            cliente=cliente,
         )
         novo_banco.save()
-        response = client.get('/clientes/35fc86f3-5533-412b-8ce0-93107079b469/dadosbancarios/'+novo_banco.uuid.__str__()+'/')
+        response = client.get(
+            '/clientes/35fc86f3-5533-412b-8ce0-93107079b469/dadosbancarios/'+novo_banco.uuid.__str__()+'/')
         self.assertEqual(response.status_code, 200)
 
     def test_update_dados_bancarios(self):
@@ -199,24 +226,25 @@ class APITest(TestCase):
             endereco='Ali na rua',
             faturamento_declarado=100.51,
         )
-        novo_banco = DadosBancarios( 
-            agencia = 1,
-            conta = 2,
-            banco = "banco1",
-            cliente = cliente,
+        novo_banco = DadosBancarios(
+            agencia=1,
+            conta=2,
+            banco="banco1",
+            cliente=cliente,
         )
         novo_banco.save()
-        
+
         request = {
             "dadosbancarios": {
                 "agencia": 54,
                 "conta": 333,
-                "banco": "Banco_update",
+                "banco": "banco update",
             }
         }
-        response = client.put('/clientes/35fc86f3-5533-412b-8ce0-93107079b469/dadosbancarios/'+novo_banco.uuid.__str__()+'/', request, format='json')
+        response = client.put('/clientes/35fc86f3-5533-412b-8ce0-93107079b469/dadosbancarios/' +
+                              novo_banco.uuid.__str__()+'/', request, format='json')
         self.assertEqual(response.status_code, 200)
-        self.assertEquals(response.data['banco'], "Banco_update")
+        self.assertEquals(response.data['banco'], "banco update")
 
     def test_delete_dados_bancarios_deve_retornar_204(self):
         cliente = Cliente.objects.create(
@@ -226,13 +254,14 @@ class APITest(TestCase):
             endereco='Ali na rua',
             faturamento_declarado=100.51,
         )
-        
-        novo_banco = DadosBancarios( 
-            agencia = 1,
-            conta = 2,
-            banco = "banco1",
-            cliente = cliente,
+
+        novo_banco = DadosBancarios(
+            agencia=1,
+            conta=2,
+            banco="banco1",
+            cliente=cliente,
         )
         novo_banco.save()
-        response = client.delete('/clientes/35fc86f3-5533-412b-8ce0-93107079b469/dadosbancarios/'+novo_banco.uuid.__str__()+'/')
+        response = client.delete(
+            '/clientes/35fc86f3-5533-412b-8ce0-93107079b469/dadosbancarios/'+novo_banco.uuid.__str__()+'/')
         self.assertEqual(response.status_code, 204)

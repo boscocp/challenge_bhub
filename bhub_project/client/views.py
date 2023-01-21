@@ -63,9 +63,9 @@ class ClienteView(APIView):
 class DadosBancariosView(APIView):
     def post(self, request, pk):
         cliente = get_object_or_404(Cliente, uuid=pk)
+        dadosbancarios_serializer = DadosBancariosSerializer(
+            data=request.data['dadosbancarios'])
         try:
-            dadosbancarios_serializer = DadosBancariosSerializer(
-                data=request.data['dadosbancarios'])
             dadosbancarios_serializer.is_valid(raise_exception=True)
             dadosbancarios = dadosbancarios_serializer.save()
             cliente.dadosbancarios_set.add(dadosbancarios, bulk=False)
@@ -75,13 +75,11 @@ class DadosBancariosView(APIView):
             }
             response.status_code = 201
             return response
-        except ValidationError as error:
-            return Response({'message': error.message}, status=400)
         except Exception:
-            return Response({'message': 'Erro ao cadastrar dados bancarios'}, status=400)
+            return Response({'message': dadosbancarios_serializer.errors}, status=400)
 
     def get(self, request, **pk):
-        cliente = get_object_or_404(Cliente, uuid=pk['pk'])
+        get_object_or_404(Cliente, uuid=pk['pk'])
         if 'db_id' not in pk.keys():
             dadosbancarios = DadosBancarios.objects.filter(
                 cliente__uuid=pk['pk'])

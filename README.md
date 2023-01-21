@@ -1,7 +1,7 @@
 # Desafop Bhub
 
 Olá,
-Desafio BHUB. Este projeto consiste em aplicar conhecimentos de back-end ao criar uma API CRUD simples. Escoli como linguagem Python, e o framework Django. Usei como base boas práticas PEP0-8 na medida do possível e para aprimorar meus conhecimentos do framework usei o livro Two Scoops of Django 3.x (2020 - Daniel Audrey Feldroy ).
+Desafio BHUB. Este projeto consiste em aplicar conhecimentos de back-end ao criar uma API CRUD simples. Escoli como linguagem Python, e o framework Django. Usei como base boas práticas PEP-8 na medida do possível e para aprimorar meus conhecimentos do framework usei o livro Two Scoops of Django 3.x (2020 - Daniel Audrey Feldroy ).
 
 Principais tecnologias usadas:
 - MongoDB
@@ -33,7 +33,9 @@ Primeiramente recomendo verificar se o banco foi criado na interface mongo-expre
 Caso por algum motivo o banco não tenha sido criado, crie digitando bhub_project e clicando em create database na interface.
 
 Para rodar os testes unitários neste projeto é necessário o banco de dados estar online para poder a biblioteca de mocking utilizada mocar com as respectivas configurações. O comando para executar os testes unitários:
+```
 python manage.py test --settings=config.settings.test
+```
 
 OBS.: O projeto usa um settings de teste para rodar os testes, e para rodar local usa o settings.local.
 
