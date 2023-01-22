@@ -1,10 +1,9 @@
 from uuid import UUID
 from django.test import TestCase
 from client.models import Cliente, DadosBancarios
-from client.serializers import validar_banco
 from rest_framework.test import APIClient
 from mongoengine import connect, disconnect
-from django.core.exceptions import ValidationError
+
 client = APIClient()
 # Create your tests here.
 
@@ -18,12 +17,6 @@ class APITest(TestCase):
     @classmethod
     def tearDownClass(cls):
         disconnect()
-
-    def test_validar_conta_deve_retornar_true(self):
-        self.assertTrue(validar_banco('banco1'))
-
-    def test_validar_conta_deve_retornar_ValidationError(self):
-        self.assertRaises(ValidationError, validar_banco, 'banco1#$')
 
     def test_API_post_deve_retornar_201(self):
         request = {

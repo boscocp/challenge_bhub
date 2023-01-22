@@ -22,10 +22,8 @@ class ClienteView(APIView):
             }
             response.status_code = 201
             return response
-        except ValidationError as error:
-            return Response({'message': error.message}, status=400)
         except Exception:
-            return Response({'message': 'Erro ao cadastrar cliente'}, status=400)
+            return Response({'message': cliente_serializer.errors}, status=400)
 
     def get(self, request, **pk):
         if pk:
@@ -45,10 +43,8 @@ class ClienteView(APIView):
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(serializer.data)
-        except ValidationError as error:
-            return Response({'message': error.message}, status=400)
         except Exception:
-            return Response({'message': 'Erro ao cadastrar cliente'}, status=400)
+            return Response({'message': serializer.errors}, status=400)
 
     def delete(self, request, pk):
         get_object_or_404(Cliente, uuid=pk).delete()
@@ -99,10 +95,8 @@ class DadosBancariosView(APIView):
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(serializer.data)
-        except ValidationError as error:
-            return Response({'message': error.message}, status=400)
         except Exception:
-            return Response({'message': 'Erro ao cadastrar dados bancarios'}, status=400)
+            return Response({'message': serializer.errors}, status=400)
 
     def delete(self, request, **pk):
         get_object_or_404(DadosBancarios, uuid=pk['db_id']).delete()
